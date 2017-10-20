@@ -7,6 +7,9 @@
 
 **The binary package manager**
 
+This tool is the successor of [gitbin](https://github.com/binhq/gitbin).
+
+
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE) for more information.
