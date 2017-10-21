@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
+	"path/filepath"
 )
 
 var (
@@ -17,7 +18,7 @@ var rootCmd = &cobra.Command{
 }
 
 func init() {
-	if os.Args[0] == "bin" {
+	if filepath.Base(os.Args[0]) == "bin" {
 		rootCmd.Use = "bin"
 	}
 	//rootCmd.PersistentFlags().BoolVarP(&quiet, "quiet", "q", false, "Do not show log output")

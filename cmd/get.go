@@ -11,7 +11,7 @@ import (
 )
 
 var getCmd = &cobra.Command{
-	Use:   "get [binary]",
+	Use:   "get [binary] [path]",
 	Short: "Download a binary to a given path (or current directory)",
 	Args:  cobra.RangeArgs(1, 2),
 	RunE: func(cmd *cobra.Command, args []string) error {

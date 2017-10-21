@@ -27,7 +27,7 @@ var rules = pkg.RuleSet{
 			Template: &pkg.BinaryTemplate{
 				Description: "Database migrations. CLI and Golang library.",
 				URL:         template.Must(template.New("").Funcs(pkg.TplFuncs).Parse(fmt.Sprintf(urlPrefix, "v{{.Version}}/migrate.{{.Os}}-{{.Arch}}.tar.gz"))),
-				File:        template.Must(template.New("").Funcs(pkg.TplFuncs).Parse("./migrate.{{.Os}}-{{.Arch}}")), // TODO: do not require ./ at the beggining of the path???
+				File:        template.Must(template.New("").Funcs(pkg.TplFuncs).Parse("migrate.{{.Os}}-{{.Arch}}")),
 			},
 		},
 	},

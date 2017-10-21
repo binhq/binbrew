@@ -34,7 +34,7 @@ watch: ## Watch for file changes and run the built binary
 
 .PHONY: build
 build: ## Build a binary
-	CGO_ENABLED=0 go build -tags '${TAGS}' ${LDFLAGS} -o ${BUILD_DIR}/${BINARY_NAME} ${PACKAGE}/cmd
+	CGO_ENABLED=0 go build -tags '${TAGS}' ${LDFLAGS} -o ${BUILD_DIR}/${BINARY_NAME} ${PACKAGE}
 
 .PHONY: check
 check:: test cs ## Run tests and linters
