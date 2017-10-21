@@ -9,6 +9,7 @@ import (
 
 	"github.com/Masterminds/semver"
 	"github.com/Masterminds/sprig"
+	tpl "github.com/binhq/binbrew/pkg/template"
 	"github.com/pkg/errors"
 )
 
@@ -17,18 +18,7 @@ var TplFuncs template.FuncMap
 func init() {
 	TplFuncs = sprig.TxtFuncMap()
 
-	// TODO: replace this with more efficient code
-	TplFuncs["archReplace"] = func(s string) string {
-		switch s {
-		case "386":
-			return "i386"
-
-		case "amd64":
-			return "x86_64"
-		}
-
-		return s
-	}
+	tpl.Merge(TplFuncs)
 }
 
 // Predefined context keys.

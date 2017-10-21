@@ -37,7 +37,7 @@ var rules = pkg.RuleSet{
 			Template: &pkg.BinaryTemplate{
 				Homepage:    "https://goreleaser.github.io/",
 				Description: "Deliver Go binaries as fast and easily as possible",
-				URL:         template.Must(template.New("").Funcs(pkg.TplFuncs).Parse(fmt.Sprintf(urlPrefix, "v{{.Version}}/goreleaser_{{.Os | title}}_{{.Arch | archReplace}}.tar.gz"))),
+				URL:         template.Must(template.New("").Funcs(pkg.TplFuncs).Parse(fmt.Sprintf(urlPrefix, "v{{.Version}}/goreleaser_{{.Os | title}}_{{.Arch | goarch}}.tar.gz"))),
 				File:        template.Must(template.New("").Funcs(pkg.TplFuncs).Parse("goreleaser")),
 			},
 		},
