@@ -15,6 +15,12 @@ before_install:
     - curl -sL http://get.binhq.io/gitbin | DEST=$HOME/bin bash
     - gitbin get golang/dep 0.3.2 -o $HOME/bin
 
-install: dep ensure
+install: make setup
 
-script: go test ./...
+script: make check
+
+after_success: >
+    if [[ "$TRAVIS_TAG" && $TRAVIS_GO_VERSION =~ ^1\.9(\.[0-9]+)?$ ]]; then
+        gitbin get goreleaser/goreleaser 0.28.3 -o $HOME/bin
+        goreleaser
+    fi
