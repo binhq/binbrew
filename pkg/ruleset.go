@@ -68,9 +68,14 @@ func (t *BinaryTemplate) Resolve(fullName string, version *semver.Version, ctx m
 		ctx[CONTEXT_ARCH] = runtime.GOARCH
 	}
 
+	if t.URL == nil {
+		return nil, errors.New("missing URL template")
+	}
+
 	buf := new(bytes.Buffer)
 
-	if err := t.URL.Execute(buf, ctx); err != nil {
+	err := t.URL.Execute(buf, ctx)
+	if err != nil {
 		return nil, errors.Wrap(err, "cannot render URL template")
 	}
 
@@ -81,7 +86,8 @@ func (t *BinaryTemplate) Resolve(fullName string, version *semver.Version, ctx m
 	if t.File != nil {
 		buf.Reset()
 
-		if err := t.File.Execute(buf, ctx); err != nil {
+		err := t.File.Execute(buf, ctx)
+		if err != nil {
 			return nil, errors.Wrap(err, "cannot render File template")
 		}
 

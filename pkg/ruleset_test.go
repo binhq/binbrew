@@ -17,6 +17,7 @@ func TestBinaryTemplate_Resolve(t *testing.T) {
 		version  *semver.Version
 		ctx      map[string]string
 		binary   *pkg.Binary
+		err      string
 	}{
 		"Defaults": {
 			&pkg.BinaryTemplate{
@@ -33,6 +34,7 @@ func TestBinaryTemplate_Resolve(t *testing.T) {
 				URL:      "http://example.com/name-1.0.0.tar.gz",
 				File:     "name-1.0.0",
 			},
+			"",
 		},
 		"AllFields": {
 			&pkg.BinaryTemplate{
@@ -53,6 +55,7 @@ func TestBinaryTemplate_Resolve(t *testing.T) {
 				URL:         "http://example.com/name-1.0.0.tar.gz",
 				File:        "name-1.0.0",
 			},
+			"",
 		},
 		"OverridesName": {
 			&pkg.BinaryTemplate{
@@ -70,11 +73,12 @@ func TestBinaryTemplate_Resolve(t *testing.T) {
 				URL:      "http://example.com/name-1.0.0.tar.gz",
 				File:     "name-1.0.0",
 			},
+			"",
 		},
 		"Context": {
 			&pkg.BinaryTemplate{
-				URL:  template.ParseNew("http://example.com/name-{{.Version}}-{{.Os}}-{{.Arch}}.tar.gz"),
-				File: template.ParseNew("name-{{.Version}}"),
+				URL:  template.ParseNew("http://example.com/{{.FullName}}-{{.Version}}-{{.Os}}-{{.Arch}}.tar.gz"),
+				File: template.ParseNew("{{.Name}}-{{.Version}}"),
 			},
 			"repo/name",
 			semver.MustParse("1.0.0"),
@@ -86,9 +90,10 @@ func TestBinaryTemplate_Resolve(t *testing.T) {
 				Name:     "name",
 				FullName: "repo/name",
 				Version:  semver.MustParse("1.0.0"),
-				URL:      "http://example.com/name-1.0.0-darwin-amd64.tar.gz",
+				URL:      "http://example.com/repo/name-1.0.0-darwin-amd64.tar.gz",
 				File:     "name-1.0.0",
 			},
+			"",
 		},
 		"ContextOverride": {
 			&pkg.BinaryTemplate{
@@ -111,6 +116,15 @@ func TestBinaryTemplate_Resolve(t *testing.T) {
 				URL:      "http://example.com/repo/name-1.0.0-darwin-amd64.tar.gz",
 				File:     "name-1.0.0",
 			},
+			"",
+		},
+		"MissingUrlTemplate": {
+			&pkg.BinaryTemplate{},
+			"repo/name",
+			semver.MustParse("1.0.0"),
+			nil,
+			nil,
+			"missing URL template",
 		},
 	}
 
@@ -118,8 +132,13 @@ func TestBinaryTemplate_Resolve(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			b, err := test.template.Resolve(test.fullName, test.version, test.ctx)
 
-			require.NoError(t, err)
-			assert.Equal(t, test.binary, b)
+			if test.err != "" {
+				require.Error(t, err)
+				assert.EqualError(t, err, test.err)
+			} else {
+				require.NoError(t, err)
+				assert.Equal(t, test.binary, b)
+			}
 		})
 	}
 }
