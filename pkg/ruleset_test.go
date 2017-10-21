@@ -3,11 +3,9 @@ package pkg_test
 import (
 	"testing"
 
-	"text/template"
-
 	"github.com/Masterminds/semver"
 	"github.com/binhq/binbrew/pkg"
-	tpl "github.com/binhq/binbrew/pkg/template"
+	"github.com/binhq/binbrew/pkg/template"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -22,8 +20,8 @@ func TestBinaryTemplate_Resolve(t *testing.T) {
 	}{
 		"Defaults": {
 			&pkg.BinaryTemplate{
-				URL:  template.Must(template.New("").Funcs(tpl.FuncMap).Parse("http://example.com/name-{{.Version}}.tar.gz")),
-				File: template.Must(template.New("").Funcs(tpl.FuncMap).Parse("name-{{.Version}}")),
+				URL:  template.ParseNew("http://example.com/name-{{.Version}}.tar.gz"),
+				File: template.ParseNew("name-{{.Version}}"),
 			},
 			"repo/name",
 			semver.MustParse("1.0.0"),
@@ -40,8 +38,8 @@ func TestBinaryTemplate_Resolve(t *testing.T) {
 			&pkg.BinaryTemplate{
 				Homepage:    "http://example.com",
 				Description: "Lorem ipsum dolor",
-				URL:         template.Must(template.New("").Funcs(tpl.FuncMap).Parse("http://example.com/name-{{.Version}}.tar.gz")),
-				File:        template.Must(template.New("").Funcs(tpl.FuncMap).Parse("name-{{.Version}}")),
+				URL:         template.ParseNew("http://example.com/name-{{.Version}}.tar.gz"),
+				File:        template.ParseNew("name-{{.Version}}"),
 			},
 			"repo/name",
 			semver.MustParse("1.0.0"),
@@ -59,8 +57,8 @@ func TestBinaryTemplate_Resolve(t *testing.T) {
 		"OverridesName": {
 			&pkg.BinaryTemplate{
 				Name: "alias",
-				URL:  template.Must(template.New("").Funcs(tpl.FuncMap).Parse("http://example.com/name-{{.Version}}.tar.gz")),
-				File: template.Must(template.New("").Funcs(tpl.FuncMap).Parse("name-{{.Version}}")),
+				URL:  template.ParseNew("http://example.com/name-{{.Version}}.tar.gz"),
+				File: template.ParseNew("name-{{.Version}}"),
 			},
 			"repo/name",
 			semver.MustParse("1.0.0"),
@@ -75,8 +73,8 @@ func TestBinaryTemplate_Resolve(t *testing.T) {
 		},
 		"Context": {
 			&pkg.BinaryTemplate{
-				URL:  template.Must(template.New("").Funcs(tpl.FuncMap).Parse("http://example.com/name-{{.Version}}-{{.Os}}-{{.Arch}}.tar.gz")),
-				File: template.Must(template.New("").Funcs(tpl.FuncMap).Parse("name-{{.Version}}")),
+				URL:  template.ParseNew("http://example.com/name-{{.Version}}-{{.Os}}-{{.Arch}}.tar.gz"),
+				File: template.ParseNew("name-{{.Version}}"),
 			},
 			"repo/name",
 			semver.MustParse("1.0.0"),
@@ -94,8 +92,8 @@ func TestBinaryTemplate_Resolve(t *testing.T) {
 		},
 		"ContextOverride": {
 			&pkg.BinaryTemplate{
-				URL:  template.Must(template.New("").Funcs(tpl.FuncMap).Parse("http://example.com/{{.FullName}}-{{.Version}}-{{.Os}}-{{.Arch}}.tar.gz")),
-				File: template.Must(template.New("").Funcs(tpl.FuncMap).Parse("{{.Name}}-{{.Version}}")),
+				URL:  template.ParseNew("http://example.com/{{.FullName}}-{{.Version}}-{{.Os}}-{{.Arch}}.tar.gz"),
+				File: template.ParseNew("{{.Name}}-{{.Version}}"),
 			},
 			"repo/name",
 			semver.MustParse("1.0.0"),
@@ -140,8 +138,8 @@ func TestRuleSet_Resolve(t *testing.T) {
 					{
 						Constraint: pkg.MustConstraint("^1.0.0"),
 						Template: &pkg.BinaryTemplate{
-							URL:  template.Must(template.New("").Funcs(tpl.FuncMap).Parse("http://example.com/name-{{.Version}}.tar.gz")),
-							File: template.Must(template.New("").Funcs(tpl.FuncMap).Parse("name-{{.Version}}")),
+							URL:  template.ParseNew("http://example.com/name-{{.Version}}.tar.gz"),
+							File: template.ParseNew("name-{{.Version}}"),
 						},
 					},
 				},
@@ -163,15 +161,15 @@ func TestRuleSet_Resolve(t *testing.T) {
 					{
 						Constraint: pkg.MustConstraint("^2.0.0"),
 						Template: &pkg.BinaryTemplate{
-							URL:  template.Must(template.New("").Funcs(tpl.FuncMap).Parse("http://anotherexample.com/name-{{.Version}}.tar.gz")),
-							File: template.Must(template.New("").Funcs(tpl.FuncMap).Parse("name-{{.Version}}")),
+							URL:  template.ParseNew("http://anotherexample.com/name-{{.Version}}.tar.gz"),
+							File: template.ParseNew("name-{{.Version}}"),
 						},
 					},
 					{
 						Constraint: pkg.MustConstraint("*"),
 						Template: &pkg.BinaryTemplate{
-							URL:  template.Must(template.New("").Funcs(tpl.FuncMap).Parse("http://example.com/name-{{.Version}}.tar.gz")),
-							File: template.Must(template.New("").Funcs(tpl.FuncMap).Parse("name-{{.Version}}")),
+							URL:  template.ParseNew("http://example.com/name-{{.Version}}.tar.gz"),
+							File: template.ParseNew("name-{{.Version}}"),
 						},
 					},
 				},
