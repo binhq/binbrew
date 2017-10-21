@@ -1,3 +1,19 @@
 [[constraint]]
   branch = "master"
   name = "github.com/spf13/cobra"
+
+[[constraint]]
+  name = "github.com/Masterminds/semver"
+  version = "^1.4.0"
+
+[[constraint]]
+  name = "github.com/Masterminds/sprig"
+  version = "^2.0.0"
+
+[[constraint]]
+  name = "github.com/pkg/errors"
+  version = "~0.8.0"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/hashicorp/go-getter"
