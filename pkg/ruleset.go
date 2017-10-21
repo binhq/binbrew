@@ -8,18 +8,8 @@ import (
 	"text/template"
 
 	"github.com/Masterminds/semver"
-	"github.com/Masterminds/sprig"
-	tpl "github.com/binhq/binbrew/pkg/template"
 	"github.com/pkg/errors"
 )
-
-var TplFuncs template.FuncMap
-
-func init() {
-	TplFuncs = sprig.TxtFuncMap()
-
-	tpl.Merge(TplFuncs)
-}
 
 // Predefined context keys.
 const (

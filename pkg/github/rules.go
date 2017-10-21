@@ -5,6 +5,7 @@ import (
 	"text/template"
 
 	"github.com/binhq/binbrew/pkg"
+	tpl "github.com/binhq/binbrew/pkg/template"
 )
 
 const urlPrefix = "https://github.com/{{.FullName}}/releases/download/%s"
@@ -16,8 +17,8 @@ var rules = pkg.RuleSet{
 			Template: &pkg.BinaryTemplate{
 				Homepage:    "https://glide.sh",
 				Description: "Package Management for Golang",
-				URL:         template.Must(template.New("").Funcs(pkg.TplFuncs).Parse(fmt.Sprintf(urlPrefix, "v{{.Version}}/glide-v{{.Version}}-{{.Os}}-{{.Arch}}.tar.gz"))),
-				File:        template.Must(template.New("").Funcs(pkg.TplFuncs).Parse("{{.Os}}-{{.Arch}}/glide")),
+				URL:         template.Must(template.New("").Funcs(tpl.FuncMap).Parse(fmt.Sprintf(urlPrefix, "v{{.Version}}/glide-v{{.Version}}-{{.Os}}-{{.Arch}}.tar.gz"))),
+				File:        template.Must(template.New("").Funcs(tpl.FuncMap).Parse("{{.Os}}-{{.Arch}}/glide")),
 			},
 		},
 	},
@@ -26,8 +27,8 @@ var rules = pkg.RuleSet{
 			Constraint: pkg.MustConstraint("*"),
 			Template: &pkg.BinaryTemplate{
 				Description: "Database migrations. CLI and Golang library.",
-				URL:         template.Must(template.New("").Funcs(pkg.TplFuncs).Parse(fmt.Sprintf(urlPrefix, "v{{.Version}}/migrate.{{.Os}}-{{.Arch}}.tar.gz"))),
-				File:        template.Must(template.New("").Funcs(pkg.TplFuncs).Parse("migrate.{{.Os}}-{{.Arch}}")),
+				URL:         template.Must(template.New("").Funcs(tpl.FuncMap).Parse(fmt.Sprintf(urlPrefix, "v{{.Version}}/migrate.{{.Os}}-{{.Arch}}.tar.gz"))),
+				File:        template.Must(template.New("").Funcs(tpl.FuncMap).Parse("migrate.{{.Os}}-{{.Arch}}")),
 			},
 		},
 	},
@@ -37,7 +38,7 @@ var rules = pkg.RuleSet{
 			Template: &pkg.BinaryTemplate{
 				Homepage:    "https://goreleaser.github.io/",
 				Description: "Deliver Go binaries as fast and easily as possible",
-				URL:         template.Must(template.New("").Funcs(pkg.TplFuncs).Parse(fmt.Sprintf(urlPrefix, "v{{.Version}}/goreleaser_{{.Os | title}}_{{.Arch | goarch}}.tar.gz"))),
+				URL:         template.Must(template.New("").Funcs(tpl.FuncMap).Parse(fmt.Sprintf(urlPrefix, "v{{.Version}}/goreleaser_{{.Os | title}}_{{.Arch | goarch}}.tar.gz"))),
 			},
 		},
 	},
@@ -47,7 +48,7 @@ var rules = pkg.RuleSet{
 			Template: &pkg.BinaryTemplate{
 				Homepage:    "https://github.com/golang/dep",
 				Description: "Go dependency management tool",
-				URL:         template.Must(template.New("").Funcs(pkg.TplFuncs).Parse(fmt.Sprintf(urlPrefix, "v{{.Version}}/dep-{{.Os}}-{{.Arch}}"))),
+				URL:         template.Must(template.New("").Funcs(tpl.FuncMap).Parse(fmt.Sprintf(urlPrefix, "v{{.Version}}/dep-{{.Os}}-{{.Arch}}"))),
 			},
 		},
 		{
@@ -55,7 +56,7 @@ var rules = pkg.RuleSet{
 			Template: &pkg.BinaryTemplate{
 				Homepage:    "https://github.com/golang/dep",
 				Description: "Go dependency management tool",
-				URL:         template.Must(template.New("").Funcs(pkg.TplFuncs).Parse(fmt.Sprintf(urlPrefix, "v{{.Version}}/dep-{{.Os}}-{{.Arch}}.zip"))),
+				URL:         template.Must(template.New("").Funcs(tpl.FuncMap).Parse(fmt.Sprintf(urlPrefix, "v{{.Version}}/dep-{{.Os}}-{{.Arch}}.zip"))),
 			},
 		},
 	},
