@@ -150,6 +150,7 @@ func TestRuleSet_Resolve(t *testing.T) {
 		version  *semver.Version
 		ctx      map[string]string
 		binary   *pkg.Binary
+		err      string
 	}{
 		"Defaults": {
 			pkg.RuleSet{
@@ -173,6 +174,7 @@ func TestRuleSet_Resolve(t *testing.T) {
 				URL:      "http://example.com/name-1.0.0.tar.gz",
 				File:     "name-1.0.0",
 			},
+			"",
 		},
 		"Fallback": {
 			pkg.RuleSet{
@@ -203,6 +205,33 @@ func TestRuleSet_Resolve(t *testing.T) {
 				URL:      "http://example.com/name-1.0.0.tar.gz",
 				File:     "name-1.0.0",
 			},
+			"",
+		},
+		"NoRules": {
+			pkg.RuleSet{},
+			"repo/name",
+			semver.MustParse("1.0.0"),
+			nil,
+			nil,
+			"rules not found for binary: repo/name",
+		},
+		"NoRulesForVersion": {
+			pkg.RuleSet{
+				"repo/name": []*pkg.Rule{
+					{
+						Constraint: pkg.MustConstraint("^2.0.0"),
+						Template: &pkg.BinaryTemplate{
+							URL:  template.ParseNew("http://anotherexample.com/name-{{.Version}}.tar.gz"),
+							File: template.ParseNew("name-{{.Version}}"),
+						},
+					},
+				},
+			},
+			"repo/name",
+			semver.MustParse("1.0.0"),
+			nil,
+			nil,
+			"cannot find rule for binary: repo/name@1.0.0",
 		},
 	}
 
@@ -210,8 +239,13 @@ func TestRuleSet_Resolve(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			b, err := test.ruleSet.Resolve(test.fullName, test.version, test.ctx)
 
-			require.NoError(t, err)
-			assert.Equal(t, test.binary, b)
+			if test.err != "" {
+				require.Error(t, err)
+				assert.EqualError(t, err, test.err)
+			} else {
+				require.NoError(t, err)
+				assert.Equal(t, test.binary, b)
+			}
 		})
 	}
 }
