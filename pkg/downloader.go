@@ -1,41 +1,40 @@
 package pkg
 
 import (
+	"io"
 	"os"
-	"os/user"
 	"path/filepath"
 
 	"github.com/hashicorp/go-getter"
-	"io"
 )
 
 type Downloader struct {
+	cache *Cache
 }
 
+// NewDownloader returns a new Downloader instance.
+func NewDownloader(cache *Cache) *Downloader {
+	return &Downloader{
+		cache: cache,
+	}
+}
+
+// Download downloads a file if necessary (not found in cache) and copies it to the target directory.
 func (d *Downloader) Download(binary *Binary, dst string) error {
-	u, err := user.Current()
-	if err != nil {
-		return err
+	if d.cache.Miss(binary) {
+		err := d.cache.Prepare(binary)
+		if err != nil {
+			return err
+		}
+
+		err = getter.GetAny(d.cache.Path(binary), binary.URL)
+		if err != nil {
+			return err
+		}
 	}
 
-	home := u.HomeDir
-	if home == "" {
-		home = os.TempDir()
-	}
-
-	cache := filepath.Join(home, ".binbrew", "cache", binary.FullName, binary.Version.String())
-
-	err = os.MkdirAll(cache, 0744)
-	if err != nil {
-		return err
-	}
-
-	err = getter.GetAny(cache, binary.URL)
-	if err != nil {
-		return err
-	}
-
-	from, err := os.Open(filepath.Join(cache, binary.File))
+	// TODO: handle ErrMiss which means download error not handled properly
+	from, err := d.cache.GetFile(binary)
 	if err != nil {
 		return err
 	}

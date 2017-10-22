@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"fmt"
-
 	"os"
 
 	"github.com/binhq/binbrew/pkg"
@@ -26,7 +25,7 @@ var getCmd = &cobra.Command{
 			return err
 		}
 
-		downloader := &pkg.Downloader{}
+		downloader := pkg.NewDownloader(pkg.NewCache())
 
 		fmt.Printf("name: %s\n", binary.Name)
 		fmt.Printf("version: %s\n", binary.Version.String())
@@ -41,12 +40,6 @@ var getCmd = &cobra.Command{
 			dst = "."
 		}
 
-		err = downloader.Download(binary, dst)
-
-		if err != nil {
-			return err
-		}
-
-		return nil
+		return downloader.Download(binary, dst)
 	},
 }
