@@ -27,10 +27,6 @@ var getCmd = &cobra.Command{
 
 		downloader := pkg.NewDownloader(pkg.NewCache())
 
-		fmt.Printf("name: %s\n", binary.Name)
-		fmt.Printf("version: %s\n", binary.Version.String())
-		fmt.Printf("url: %s\n", binary.URL)
-
 		var dst string
 		if len(args) == 2 {
 			dst = args[1]
