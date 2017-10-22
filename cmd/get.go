@@ -24,7 +24,7 @@ var getCmd = &cobra.Command{
 		binary, err := resolver.Resolve(args[0])
 		if err != nil {
 			logger.Error(err)
-			return
+			os.Exit(1)
 		}
 
 		downloader := pkg.NewDownloader(pkg.NewCache(), logger)
@@ -41,7 +41,7 @@ var getCmd = &cobra.Command{
 		err = downloader.Download(binary, dst)
 		if err != nil {
 			logger.Error(err)
-			return
+			os.Exit(1)
 		}
 	},
 }

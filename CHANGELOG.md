@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [Unreleased]
+
+### Fixed
+
+- Return exit code different from 0 when there is an error
+
+
 ## [0.1.1] - 2017-10-23
 
 ### Fixed
@@ -20,4 +27,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Port [gitbin](https://github.com/binhq/gitbin) features to binbrew
 - Manage local cache
 
+
+[Unreleased]: https://github.com/binhq/binbrew/compare/v0.1.1...HEAD
 [0.1.1]: https://github.com/binhq/binbrew/compare/v0.1.0...v0.1.1
