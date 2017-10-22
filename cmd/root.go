@@ -3,8 +3,8 @@ package cmd
 import (
 	"fmt"
 	"os"
-
 	"path/filepath"
+	"strconv"
 
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
@@ -21,6 +21,8 @@ var rootCmd = &cobra.Command{
 	Short: "The binary package manager",
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		if verbose {
+			logger.SetLevel(logrus.DebugLevel)
+		} else if verbose, err := strconv.ParseBool(os.Getenv("BINBREW_VERBOSE")); err == nil && verbose {
 			logger.SetLevel(logrus.DebugLevel)
 		}
 	},
