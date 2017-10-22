@@ -12,8 +12,8 @@ matrix:
 
 before_install:
     - mkdir -p $HOME/bin
-    - curl -sL http://get.binhq.io/gitbin | DEST=$HOME/bin bash
-    - gitbin get golang/dep 0.3.2 -o $HOME/bin
+    - curl -sL https://get.binhq.io/binbrew | DEST=$HOME/bin NAME=bin bash
+    - bin get golang/dep@0.3.2 $HOME/bin
 
 install: make setup
 
@@ -21,6 +21,6 @@ script: make check ARGS="-v"
 
 after_success: >
     if [[ "$TRAVIS_TAG" && $TRAVIS_GO_VERSION =~ ^1\.9(\.[0-9]+)?$ ]]; then
-        gitbin get goreleaser/goreleaser 0.35.4 -o $HOME/bin
+        bin get goreleaser/goreleaser@0.35.4 $HOME/bin
         goreleaser
     fi
