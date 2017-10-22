@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/binhq/binbrew/pkg"
@@ -13,19 +12,22 @@ var getCmd = &cobra.Command{
 	Use:   "get [binary] [path]",
 	Short: "Download a binary to a given path (or current directory)",
 	Args:  cobra.RangeArgs(1, 2),
-	RunE: func(cmd *cobra.Command, args []string) error {
+	Run: func(cmd *cobra.Command, args []string) {
 		resolver := &pkg.Resolver{
 			Providers: map[string]pkg.Provider{
 				"github": &github.Provider{},
 			},
 		}
 
+		logger.WithField("binary", args[0]).Debug("resolving binary")
+
 		binary, err := resolver.Resolve(args[0])
 		if err != nil {
-			return err
+			logger.Error(err)
+			return
 		}
 
-		downloader := pkg.NewDownloader(pkg.NewCache())
+		downloader := pkg.NewDownloader(pkg.NewCache(), logger)
 
 		var dst string
 		if len(args) == 2 {
@@ -36,6 +38,10 @@ var getCmd = &cobra.Command{
 			dst = "."
 		}
 
-		return downloader.Download(binary, dst)
+		err = downloader.Download(binary, dst)
+		if err != nil {
+			logger.Error(err)
+			return
+		}
 	},
 }

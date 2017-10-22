@@ -4,24 +4,33 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/spf13/cobra"
 	"path/filepath"
+
+	"github.com/sirupsen/logrus"
+	"github.com/spf13/cobra"
 )
 
 var (
-	quiet bool
+	verbose bool
 )
+
+var logger = logrus.New()
 
 var rootCmd = &cobra.Command{
 	Use:   "binbrew",
 	Short: "The binary package manager",
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		if verbose {
+			logger.SetLevel(logrus.DebugLevel)
+		}
+	},
 }
 
 func init() {
 	if filepath.Base(os.Args[0]) == "bin" {
 		rootCmd.Use = "bin"
 	}
-	//rootCmd.PersistentFlags().BoolVarP(&quiet, "quiet", "q", false, "Do not show log output")
+	rootCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "Show verbose output")
 
 	rootCmd.AddCommand(versionCmd, getCmd)
 }

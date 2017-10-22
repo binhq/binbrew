@@ -17,3 +17,7 @@
 [[constraint]]
   branch = "master"
   name = "github.com/hashicorp/go-getter"
+
+[[constraint]]
+  name = "github.com/sirupsen/logrus"
+  version = "1.0.0"

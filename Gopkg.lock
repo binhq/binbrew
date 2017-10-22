@@ -121,6 +121,12 @@
   version = "v1.1.0"
 
 [[projects]]
+  name = "github.com/sirupsen/logrus"
+  packages = ["."]
+  revision = "f006c2ac4710855cf0f916dd6b77acf6b048dc6e"
+  version = "v1.0.3"
+
+[[projects]]
   branch = "master"
   name = "github.com/spf13/cobra"
   packages = ["."]
@@ -147,12 +153,18 @@
 [[projects]]
   branch = "master"
   name = "golang.org/x/crypto"
-  packages = ["pbkdf2","scrypt"]
+  packages = ["pbkdf2","scrypt","ssh/terminal"]
   revision = "edd5e9b0879d13ee6970a50153d85b8fec9f7686"
+
+[[projects]]
+  branch = "master"
+  name = "golang.org/x/sys"
+  packages = ["unix","windows"]
+  revision = "8dbc5d05d6edcc104950cc299a1ce6641235bc86"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "e1168ef850dd162a1d5711acac08a7870f60b195aefc51d5ed3b53a753dc00cd"
+  inputs-digest = "6544fccbb9a4c7f16986e8adcb2542dfbb65208419d538e0410d5037f85a75cb"
   solver-name = "gps-cdcl"
   solver-version = 1

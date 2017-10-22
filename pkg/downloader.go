@@ -6,31 +6,42 @@ import (
 	"path/filepath"
 
 	"github.com/hashicorp/go-getter"
+	"github.com/sirupsen/logrus"
 )
 
 type Downloader struct {
-	cache *Cache
+	cache  *Cache
+	logger logrus.FieldLogger
 }
 
 // NewDownloader returns a new Downloader instance.
-func NewDownloader(cache *Cache) *Downloader {
+func NewDownloader(cache *Cache, logger logrus.FieldLogger) *Downloader {
 	return &Downloader{
-		cache: cache,
+		cache:  cache,
+		logger: logger,
 	}
 }
 
 // Download downloads a file if necessary (not found in cache) and copies it to the target directory.
 func (d *Downloader) Download(binary *Binary, dst string) error {
+	d.logger.Debug("looking for binary in the cache")
+
 	if d.cache.Miss(binary) {
+		d.logger.Debug("cache missed")
+
 		err := d.cache.Prepare(binary)
 		if err != nil {
 			return err
 		}
 
+		d.logger.Debug("downloading binary")
+
 		err = getter.GetAny(d.cache.Path(binary), binary.URL)
 		if err != nil {
 			return err
 		}
+	} else {
+		d.logger.Debug("cache hit")
 	}
 
 	// TODO: handle ErrMiss which means download error not handled properly
