@@ -48,6 +48,7 @@ var rules = pkg.RuleSet{
 				Homepage:    "https://github.com/golang/dep",
 				Description: "Go dependency management tool",
 				URL:         template.ParseNew(fmt.Sprintf(urlPrefix, "v{{.Version}}/dep-{{.Os}}-{{.Arch}}")),
+				File:        template.ParseNew("dep-{{.Os}}-{{.Arch}}"),
 			},
 		},
 		{
