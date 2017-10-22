@@ -1,4 +1,4 @@
-# Bin Brew
+# Binbrew
 
 [![Build Status](https://img.shields.io/travis/binhq/binbrew.svg?style=flat-square)](https://travis-ci.org/binhq/binbrew)
 [![Go Report Card](https://goreportcard.com/badge/github.com/binhq/binbrew?style=flat-square)](https://goreportcard.com/report/github.com/binhq/binbrew)
