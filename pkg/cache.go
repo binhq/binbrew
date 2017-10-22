@@ -26,7 +26,7 @@ func NewCache() *Cache {
 	}
 
 	return &Cache{
-		dir: filepath.Join(dir, ".binbrew", "cache"),
+		dir: filepath.Join(dir, ".binbrew", "downloads"),
 	}
 }
 
