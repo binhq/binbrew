@@ -1,0 +1,15 @@
+builds:
+  -
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+    goarch:
+      - amd64
+    ldflags: "-s -w -X github.com/binhq/binbrew/cmd.Version={{.Version}} -X github.com/binhq/binbrew/cmd.CommitHash={{.Commit}} -X github.com/binhq/binbrew/cmd.BuildDate={{.Date}}"
+
+archive:
+    name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
+    replacements:
+        dummy: dummy # Required because replacements are checked for length (https://github.com/goreleaser/goreleaser/blob/3ed26ed83b083dbd4267ad6bf5fc5282b2e5942c/pipeline/defaults/defaults.go#L53)
