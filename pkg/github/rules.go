@@ -60,4 +60,13 @@ var rules = pkg.RuleSet{
 			},
 		},
 	},
+	"gobuffalo/packr": []*pkg.Rule{
+		{
+			Constraint: pkg.MustConstraint("*"),
+			Template: &pkg.BinaryTemplate{
+				Description: "The simple and easy way to embed static files into Go binaries.",
+				URL:         template.ParseNew(fmt.Sprintf(urlPrefix, "v{{.Version}}/packr_{{.Version}}_{{.Os}}_{{.Arch}}.tar.gz")),
+			},
+		},
+	},
 }

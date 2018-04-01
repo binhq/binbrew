@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- [gobuffalo/packr](https://github.com/gobuffalo/packr) rule
+
 
 ## [0.1.2] - 2017-10-23
 
