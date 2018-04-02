@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- [google/protobuf](https://github.com/google/protobuf) rule
+
 
 ## [0.2.0] - 2018-04-01
 

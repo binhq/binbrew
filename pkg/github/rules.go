@@ -69,4 +69,15 @@ var rules = pkg.RuleSet{
 			},
 		},
 	},
+	"google/protobuf": []*pkg.Rule{
+		{
+			Constraint: pkg.MustConstraint("*"),
+			Template: &pkg.BinaryTemplate{
+				Name:        "protoc",
+				Description: "Protocol Buffers - Google's data interchange format",
+				URL:         template.ParseNew(fmt.Sprintf(urlPrefix, "v{{.Version}}/protoc-{{.Version}}-{{.Os|protobuf_goos}}-{{.Arch|protobuf_goarch}}.zip")),
+				File:        template.ParseNew("bin/protoc"),
+			},
+		},
+	},
 }

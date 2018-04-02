@@ -18,5 +18,7 @@ func init() {
 
 // funcMap contains custom functions passed to templates.
 var funcMap = template.FuncMap{
-	"goarch": goarch,
+	"goarch":          goarch,
+	"protobuf_goarch": protobuf_goarch,
+	"protobuf_goos":   protobuf_goos,
 }
